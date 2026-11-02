@@ -53,3 +53,4 @@ Thumbs.db
 # Temporary scratch & large archives
 backend/static/generated/*
 !backend/static/generated/.gitkeep
+

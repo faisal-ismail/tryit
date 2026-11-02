@@ -165,17 +165,17 @@
             </div>
 
             <!-- Create Custom Profile Form (e.g., Zain Ali) -->
-            <div id="tryit-profile-creator" class="hidden" style="background:rgba(15,23,42,0.85);border:1px solid rgba(139,92,246,0.45);border-radius:10px;padding:12px;margin-bottom:10px;">
-              <div style="font-size:0.76rem;font-weight:700;color:#C4B5FD;margin-bottom:8px;">
+            <div id="tryit-profile-creator" class="hidden" style="background:#F4F1FD;border:1px solid #DDD6FE;border-radius:10px;padding:12px;margin-bottom:10px;">
+              <div style="font-size:0.76rem;font-weight:700;color:#6D28D9;margin-bottom:8px;">
                 Create Person Profile (e.g., Zain Ali)
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <input id="tryit-new-name" type="text" placeholder="Name (e.g., Zain Ali)" style="padding:7px 9px;border-radius:7px;border:1px solid rgba(148,163,184,0.3);background:#0B0F19;color:#F8FAFC;font-size:0.78rem;" />
-                <select id="tryit-new-gender" style="padding:7px 9px;border-radius:7px;border:1px solid rgba(148,163,184,0.3);background:#0B0F19;color:#F8FAFC;font-size:0.78rem;">
+                <input id="tryit-new-name" type="text" placeholder="Name (e.g., Zain Ali)" style="padding:7px 9px;border-radius:7px;border:1px solid #DDD6FE;background:#FFFFFF;color:#0F172A;font-size:0.78rem;" />
+                <select id="tryit-new-gender" style="padding:7px 9px;border-radius:7px;border:1px solid #DDD6FE;background:#FFFFFF;color:#0F172A;font-size:0.78rem;">
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </select>
-                <select id="tryit-new-ethnicity" style="padding:7px 9px;border-radius:7px;border:1px solid rgba(148,163,184,0.3);background:#0B0F19;color:#F8FAFC;font-size:0.78rem;">
+                <select id="tryit-new-ethnicity" style="padding:7px 9px;border-radius:7px;border:1px solid #DDD6FE;background:#FFFFFF;color:#0F172A;font-size:0.78rem;">
                   <option value="South Asian">South Asian</option>
                   <option value="Asian">Asian</option>
                   <option value="African">African</option>
@@ -183,7 +183,7 @@
                   <option value="Latin">Latin</option>
                   <option value="Middle Eastern">Middle Eastern</option>
                 </select>
-                <select id="tryit-new-size" style="padding:7px 9px;border-radius:7px;border:1px solid rgba(148,163,184,0.3);background:#0B0F19;color:#F8FAFC;font-size:0.78rem;">
+                <select id="tryit-new-size" style="padding:7px 9px;border-radius:7px;border:1px solid #DDD6FE;background:#FFFFFF;color:#0F172A;font-size:0.78rem;">
                   <option value="S">Size S</option>
                   <option value="M" selected>Size M</option>
                   <option value="L">Size L</option>
@@ -193,7 +193,7 @@
               <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px;">
                 <label class="tryit-mini-action" for="tryit-new-profile-photo" style="cursor:pointer;">📷 Initial Photo</label>
                 <input id="tryit-new-profile-photo" type="file" accept="image/*" style="display:none" />
-                <span id="tryit-new-photo-status" style="font-size:0.7rem;color:#94A3B8;flex:1;">Optional</span>
+                <span id="tryit-new-photo-status" style="font-size:0.7rem;color:#64748B;flex:1;">Optional</span>
                 <button id="tryit-save-profile-btn" class="tryit-btn-small" type="button">Save Profile</button>
               </div>
             </div>
@@ -209,12 +209,12 @@
             <div id="tryit-persona-tabs" class="tryit-persona-tabs" style="max-height:190px;overflow-y:auto;"></div>
 
             <!-- Multi-Photo Gallery for Selected Profile -->
-            <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(148,163,184,0.16);">
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #E5E7EB;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                <span id="tryit-photo-strip-label" style="font-size:0.75rem;font-weight:700;color:#E2E8F0;">
+                <span id="tryit-photo-strip-label" style="font-size:0.75rem;font-weight:700;color:#0F172A;">
                   2. Choose Photo of Maya Lin
                 </span>
-                <span style="font-size:0.68rem;color:#94A3B8;">Click a photo to use for Try-On</span>
+                <span style="font-size:0.68rem;color:#64748B;">Click a photo to use for Try-On</span>
               </div>
               <div id="tryit-photo-strip" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;align-items:center;"></div>
               <input id="tryit-photo-upload" type="file" accept="image/*" style="display:none" />
@@ -262,8 +262,8 @@
               </div>
               <img id="tryit-result-img" src="" alt="TryIt AI Output" class="tryit-result-img" />
               <!-- Add Result Photo into Active Profile Gallery -->
-              <div style="padding:10px 12px;background:rgba(139,92,246,0.12);border-top:1px solid rgba(139,92,246,0.3);display:flex;justify-content:space-between;align-items:center;gap:8px;">
-                <span style="font-size:0.74rem;color:#E2E8F0;font-weight:600;">Save this rendered photo to profile:</span>
+              <div style="padding:10px 12px;background:#F4F1FD;border-top:1px solid #DDD6FE;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                <span style="font-size:0.74rem;color:#0F172A;font-weight:600;">Save this rendered photo to profile:</span>
                 <button id="tryit-save-to-profile-btn" class="tryit-tool-pill tryit-pin-pill" type="button">
                   📥 Add Photo to Profile
                 </button>
@@ -275,7 +275,7 @@
               <div class="tryit-section-header" style="margin-bottom:4px;">
                 <span>Edit Look by Text Command</span>
               </div>
-              <p style="font-size:0.72rem;color:#94A3B8;margin-bottom:8px;">
+              <p style="font-size:0.72rem;color:#64748B;margin-bottom:8px;">
                 Remove or add a specific item (e.g., "remove jacket", "add leather boots", "add cashmere scarf")
               </p>
               <div style="display:flex;gap:6px;">
@@ -283,7 +283,7 @@
                   id="tryit-edit-cmd-input"
                   type="text"
                   placeholder="e.g., Remove last item, or Add leather boots..."
-                  style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid rgba(148,163,184,0.3);background:#0B0F19;color:#F8FAFC;font-size:0.78rem;"
+                  style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #DDD6FE;background:#FFFFFF;color:#0F172A;font-size:0.78rem;"
                 />
                 <button id="tryit-edit-cmd-btn" class="tryit-btn-small" type="button">Apply Edit</button>
               </div>
@@ -320,8 +320,8 @@
         </div>
 
         <!-- Required Footer Attribution -->
-        <footer style="padding:10px 20px;border-top:1px solid rgba(148,163,184,0.18);background:rgba(15,23,42,0.95);text-align:center;font-size:0.72rem;color:#94A3B8;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;">
-          Powered by <span style="color:#D4AF37;">YouCam</span> &amp; <span style="color:#C4B5FD;">Gemini API</span>
+        <footer style="padding:10px 20px;border-top:1px solid #DDD6FE;background:#F4F1FD;text-align:center;font-size:0.72rem;color:#64748B;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;">
+          Powered by <span style="color:#7C3AED;">YouCam</span> &amp; <span style="color:#6D28D9;">Gemini API</span>
         </footer>
       </aside>
     `;
@@ -605,17 +605,17 @@
       photos
         .map((ph) => {
           const isSel = ph.url === state.selectedPhotoUrl;
-          const border = isSel ? "2px solid #D4AF37" : "1px solid rgba(148,163,184,0.35)";
+          const border = isSel ? "2px solid #7C3AED" : "1px solid #DDD6FE";
           return `
-            <button type="button" class="tryit-photo-thumb" data-photourl="${ph.url}" style="position:relative;width:56px;height:70px;border-radius:6px;border:${border};padding:0;overflow:hidden;background:#0B0F19;cursor:pointer;flex-shrink:0;">
+            <button type="button" class="tryit-photo-thumb" data-photourl="${ph.url}" style="position:relative;width:56px;height:70px;border-radius:6px;border:${border};padding:0;overflow:hidden;background:#F4F1FD;cursor:pointer;flex-shrink:0;">
               <img src="${resolveUrl(ph.url)}" alt="${ph.label}" style="width:100%;height:100%;object-fit:cover;display:block;" />
-              <span style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.72);color:#fff;font-size:0.55rem;padding:2px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ph.label}</span>
+              <span style="position:absolute;bottom:0;left:0;right:0;background:rgba(15,23,42,0.72);color:#fff;font-size:0.55rem;padding:2px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ph.label}</span>
             </button>
           `;
         })
         .join("") +
       `
-        <label for="tryit-photo-upload" style="width:56px;height:70px;border-radius:6px;border:1px dashed #D4AF37;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#D4AF37;font-size:0.64rem;font-weight:700;cursor:pointer;flex-shrink:0;text-align:center;padding:4px;">
+        <label for="tryit-photo-upload" style="width:56px;height:70px;border-radius:6px;border:1px dashed #7C3AED;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7C3AED;font-size:0.64rem;font-weight:700;cursor:pointer;flex-shrink:0;text-align:center;padding:4px;background:#F4F1FD;">
           <span>＋</span>
           <span>Add Photo</span>
         </label>
