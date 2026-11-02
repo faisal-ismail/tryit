@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.TRYIT_BACKEND_URL = "https://tryit-ai-165171821863.us-central1.run.app";</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TryIt AI — Universal AI Virtual Try-On &amp; Skin Compatibility Agent (tryit.sineix.com)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-page: #F9F8FE;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F4F1FD;
+      --text-main: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --purple-primary: #6D28D9;
+      --purple-vibrant: #7C3AED;
+      --purple-light: #EDE9FE;
+      --purple-pill-bg: #F3E8FF;
+      --purple-border: #DDD6FE;
+      --border-soft: #E5E7EB;
+      --emerald: #059669;
+      --emerald-bg: #ECFDF5;
+      --amber: #D97706;
+      --danger: #DC2626;
+      --danger-bg: #FEF2F2;
+      --shadow-sm: 0 2px 10px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 10px 30px -6px rgba(109, 40, 217, 0.12);
+      --shadow-purple: 0 12px 32px -4px rgba(109, 40, 217, 0.28);
+    }
+
+    body.dark-theme {
+      --bg-page: #0B0914;
+      --bg-surface: #131122;
+      --bg-subtle: #1D1836;
+      --text-main: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-muted: #94A3B8;
+      --purple-light: rgba(124, 58, 237, 0.22);
+      --purple-pill-bg: rgba(124, 58, 237, 0.18);
+      --purple-border: rgba(139, 92, 246, 0.4);
+      --border-soft: rgba(148, 163, 184, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 72% 460px at 50% 55px, rgba(124, 58, 237, 0.14), rgba(124, 58, 237, 0.03) 60%, transparent 100%),
+        linear-gradient(to right, rgba(124, 58, 237, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(124, 58, 237, 0.035) 1px, transparent 1px);
+      background-size: 100% 100%, 36px 36px, 36px 36px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Floating Top Navigation Bar (SponsorGraph Style) */
+    .top-nav-wrap {
+      max-width: 1280px;
+      margin: 16px auto 0;
+      padding: 0 20px;
+    }
+
+    .top-nav {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1E1B4B, #6D28D9);
+      color: #FFFFFF;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25);
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .nav-tagline-pill {
+      background: var(--purple-pill-bg);
+      color: var(--purple-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--purple-border);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-soft);
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .nav-pill-btn:hover {
+      border-color: var(--purple-vibrant);
+      color: var(--purple-primary);
+      background: var(--purple-pill-bg);
+    }
+
+    .nav-pill-btn.primary-dl {
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #FFFFFF;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(109, 40, 217, 0.28);
+    }
+
+    .nav-pill-btn.primary-dl:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(109, 40, 217, 0.4);
+      color: #FFFFFF;
+    }
+
+    .theme-toggle-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 38px 20px 80px;
+    }
+
+    /* Hero Section (Exact SponsorGraph Aesthetic) */
+    .hero-section {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 42px;
+    }
+
+    .hero-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--purple-border);
+      padding: 6px 16px;
+      border-radius: 999px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .hero-top-badge .mini-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1E1B4B, #7C3AED);
+      color: #fff;
+      display: inline-grid;
+      place-items: center;
+      font-size: 10px;
+    }
+
+    .hero-top-badge .badge-purple {
+      color: var(--purple-vibrant);
+      font-weight: 700;
+    }
+
+    .hero-headline {
+      font-size: clamp(2.1rem, 4.4vw, 3.35rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.22;
+      color: var(--text-main);
+      margin-bottom: 20px;
+    }
+
+    .tilted-purple-box {
+      display: inline-block;
+      background: linear-gradient(135deg, #6D28D9 0%, #7C3AED 100%);
+      color: #FFFFFF;
+      padding: 4px 20px 8px;
+      border-radius: 14px;
+      transform: rotate(-1.25deg);
+      box-shadow: var(--shadow-purple);
+      margin-right: 6px;
+    }
+
+    .hero-description {
+      font-size: 1.04rem;
+      color: var(--text-secondary);
+      max-width: 740px;
+      margin: 0 auto 28px;
+      line-height: 1.68;
+    }
+
+    /* Interactive Pill Search / URL Try-On Bar */
+    .search-pill-bar {
+      max-width: 760px;
+      margin: 0 auto 18px;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--purple-border);
+      border-radius: 999px;
+      padding: 7px 8px 7px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-md);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-pill-bar:focus-within {
+      border-color: var(--purple-vibrant);
+      box-shadow: 0 12px 34px -4px rgba(124, 58, 237, 0.22);
+    }
+
+    .search-globe {
+      font-size: 18px;
+      color: var(--purple-vibrant);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 0.94rem;
+      color: var(--text-main);
+      font-family: inherit;
+    }
+
+    .search-input::placeholder {
+      color: #94A3B8;
+    }
+
+    .search-submit-btn {
+      background: linear-gradient(135deg, #6D28D9 0%, #7C3AED 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(109, 40, 217, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .search-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(109, 40, 217, 0.42);
+    }
+
+    /* Quick Ingest / Try-On Examples Row */
+    .quick-examples-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .quick-examples-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .quick-label {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    .example-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--purple-border);
+      color: var(--purple-primary);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .example-chip:hover {
+      background: var(--purple-vibrant);
+      color: #FFFFFF;
+      border-color: var(--purple-vibrant);
+      transform: translateY(-1px);
+    }
+
+    /* Key Links Ribbon (Extension Download, Hackathon, GitHub) */
+    .cta-ribbon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .cta-card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 20px;
+      border-radius: 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .cta-card-btn:hover {
+      border-color: var(--purple-vibrant);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .cta-card-btn.cta-purple {
+      background: linear-gradient(135deg, #6D28D9 0%, #7C3AED 100%);
+      color: #FFFFFF;
+      border-color: transparent;
+      box-shadow: var(--shadow-purple);
+    }
+
+    /* Benchmark Portfolio Cards Section (Matching Bottom of Screenshot) */
+    .benchmark-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .benchmark-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .benchmark-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--purple-vibrant);
+      display: inline-block;
+    }
+
+    .benchmark-sub {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .benchmark-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 16px;
+      margin-bottom: 44px;
+    }
+
+    .benchmark-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .benchmark-card:hover,
+    .benchmark-card.active-card {
+      border-color: var(--purple-vibrant);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .benchmark-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--purple-pill-bg);
+      color: var(--purple-vibrant);
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .benchmark-card.active-card .benchmark-icon-box {
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #FFFFFF;
+    }
+
+    .benchmark-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .benchmark-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .benchmark-code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .benchmark-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: var(--purple-pill-bg);
+      color: var(--purple-primary);
+    }
+
+    .benchmark-card.active-card .benchmark-pill {
+      background: var(--purple-vibrant);
+      color: #FFFFFF;
+    }
+
+    .benchmark-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .benchmark-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .benchmark-cohort {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Interactive Storefront Catalog Section */
+    .catalog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .catalog-title-group h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .catalog-title-group p {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .filter-tab.active,
+    .filter-tab:hover {
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #FFFFFF;
+      border-color: transparent;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+
+    .product-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--purple-border);
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-img-wrap {
+      position: relative;
+      height: 230px;
+      background: var(--bg-subtle);
+      overflow: hidden;
+    }
+
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pipeline-chip {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(109, 40, 217, 0.9);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .store-chip {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #0F172A;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .product-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .product-brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--purple-vibrant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .product-price {
+      font-size: 0.92rem;
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .product-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .product-ing {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .product-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .native-cart-btn {
+      flex: 0.85;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tryit-inject-btn {
+      flex: 1.35;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(109, 40, 217, 0.28);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .tryit-inject-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.42);
+    }
+
+    /* Extension Install & Hackathon Banner Section */
+    .ext-install-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--purple-border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 820px) {
+      .ext-install-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ext-steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .ext-steps-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+    }
+
+    .step-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--purple-pill-bg);
+      color: var(--purple-primary);
+      font-weight: 800;
+      font-size: 0.75rem;
+      display: inline-grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    .page-footer {
+      border-top: 1px solid var(--border-soft);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* TryIt AI Slide-Over Drawer Styles (`widget.js`) */
+    .tryit-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .tryit-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .tryit-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(500px, 100vw);
+      height: 100vh;
+      background: #0B0F19;
+      color: #F8FAFC;
+      border-left: 1px solid rgba(139, 92, 246, 0.35);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(104%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.45);
+    }
+    .tryit-drawer.open {
+      transform: translateX(0);
+    }
+    .tryit-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(17, 24, 39, 0.95);
+    }
+    .tryit-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .tryit-logo-orb {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+    .tryit-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tryit-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #F8FAFC;
+    }
+    .tryit-pill-badge {
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(139, 92, 246, 0.2);
+      color: #C4B5FD;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      font-weight: 700;
+    }
+    .tryit-subtitle {
+      font-size: 0.74rem;
+      color: #94A3B8;
+    }
+    .tryit-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .tryit-icon-btn {
+      background: rgba(30, 41, 59, 0.8);
+      color: #F8FAFC;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+    .tryit-keys-panel {
+      padding: 12px 20px;
+      background: #111827;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    }
+    .tryit-keys-title {
+      font-size: 0.74rem;
+      color: #C4B5FD;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .tryit-keys-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+    }
+    .tryit-keys-grid input {
+      background: #0B0F19;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: #F8FAFC;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+    }
+    .tryit-btn-small {
+      background: #7C3AED;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tryit-body {
+      padding: 16px 20px 28px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .tryit-card {
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .tryit-product-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .tryit-prod-thumb {
+      width: 58px;
+      height: 70px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #1E293B;
+    }
+    .tryit-prod-meta {
+      flex: 1;
+    }
+    .tryit-prod-brand-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #A78BFA;
+    }
+    .tryit-prod-price {
+      color: #10B981;
+    }
+    .tryit-prod-title {
+      font-size: 0.92rem;
+      margin: 2px 0;
+      color: #F8FAFC;
+    }
+    .tryit-prod-ing {
+      font-size: 0.72rem;
+      color: #94A3B8;
+    }
+    .tryit-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #CBD5E1;
+      margin-bottom: 10px;
+    }
+    .tryit-upload-controls {
+      display: flex;
+      gap: 6px;
+    }
+    .tryit-mini-action {
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      color: #C4B5FD;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tryit-mini-action.active {
+      background: #7C3AED;
+      color: #FFFFFF;
+    }
+    .tryit-persona-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .tryit-persona-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 10px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-align: left;
+      color: #F8FAFC;
+    }
+    .tryit-persona-card.active {
+      border-color: #7C3AED;
+      background: rgba(124, 58, 237, 0.18);
+    }
+    .tryit-persona-avatar {
+      width: 36px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .tryit-persona-name {
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .tryit-persona-meta,
+    .tryit-persona-sub {
+      font-size: 0.65rem;
+      color: #94A3B8;
+    }
+    .tryit-action-row {
+      display: flex;
+      gap: 8px;
+    }
+    .tryit-primary-btn {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #6D28D9, #7C3AED);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+    .tryit-chain-btn {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      background: linear-gradient(135deg, #059669, #047857);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .tryit-loading-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.35);
+    }
+    .tryit-spinner {
+      width: 22px;
+      height: 22px;
+      border: 3px solid rgba(196, 181, 253, 0.3);
+      border-top-color: #A78BFA;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .tryit-loading-stage {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #E2E8F0;
+    }
+    .tryit-loading-sub {
+      font-size: 0.7rem;
+      color: #94A3B8;
+    }
+    .tryit-result-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .tryit-canvas-wrapper {
+      background: #090D16;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tryit-canvas-badges {
+      padding: 8px 12px;
+      background: rgba(15, 23, 42, 0.95);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tryit-endpoint-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #C4B5FD;
+    }
+    .tryit-canvas-tools {
+      display: flex;
+      gap: 6px;
+    }
+    .tryit-tool-pill {
+      background: rgba(30, 41, 59, 0.9);
+      color: #E2E8F0;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tryit-pin-pill {
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #6EE7B7;
+    }
+    .tryit-result-img {
+      width: 100%;
+      max-height: 440px;
+      object-fit: contain;
+      display: block;
+    }
+    .tryit-verdict-card {
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .tryit-verdict-card.status-conflict {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.45);
+    }
+    .tryit-verdict-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .tryit-verdict-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #94A3B8;
+    }
+    .tryit-verdict-headline {
+      font-size: 0.9rem;
+      color: #F8FAFC;
+    }
+    .tryit-score-ring {
+      font-size: 0.95rem;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.8);
+      color: #34D399;
+    }
+    .tryit-verdict-advice {
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      margin-bottom: 8px;
+    }
+    .tryit-verdict-factors {
+      padding-left: 16px;
+      font-size: 0.74rem;
+      color: #CBD5E1;
+    }
+    .tryit-skin-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .tryit-skin-item {
+      background: rgba(15, 23, 42, 0.7);
+      padding: 7px 9px;
+      border-radius: 8px;
+    }
+    .tryit-skin-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      margin-bottom: 4px;
+    }
+    .tryit-skin-track {
+      height: 5px;
+      background: rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .tryit-skin-fill {
+      height: 100%;
+    }
+    .tryit-pinned-banner {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .tryit-pinned-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tryit-pinned-thumb {
+      width: 40px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .tryit-pinned-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #34D399;
+    }
+    .tryit-pinned-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .tryit-clear-pin-btn {
+      margin-left: auto;
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Floating Navigation Bar (SponsorGraph Style) -->
+  <div class="top-nav-wrap">
+    <nav class="top-nav">
+      <div class="nav-left">
+        <div class="brand-logo-box">✨</div>
+        <span class="brand-name">TryIt AI</span>
+        <span class="nav-tagline-pill">AI Virtual Fitting Room &amp; Dermal Barrier Agent for eCommerce</span>
+      </div>
+      <div class="nav-right">
+        <a href="https://tryit-ai-165171821863.us-central1.run.app/api/download-extension" class="nav-pill-btn primary-dl" download="tryit-chrome-extension.zip">
+          📦 Download Extension
+        </a>
+        <a href="https://youcam-api-skin-ai-ecommerce.devpost.com/" target="_blank" rel="noopener noreferrer" class="nav-pill-btn">
+          🏆 YouCam Hackathon
+        </a>
+        <a href="https://github.com/faisal-ismail/tryit" target="_blank" rel="noopener noreferrer" class="nav-pill-btn">
+          💻 GitHub Repo
+        </a>
+        <a href="#extension-install-guide" class="nav-pill-btn">
+          ❓ Help &amp; Guide
+        </a>
+        <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" title="Toggle Light / Dark Theme">
+          🌙
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <main class="container">
+    <!-- Centered Hero Section -->
+    <section class="hero-section">
+      <div class="hero-top-badge">
+        <span class="mini-dot">✨</span>
+        <span><strong>TryIt AI</strong></span>
+        <span>•</span>
+        <span class="badge-purple">Smart Virtual Try-On &amp; Skin AI for Shoppers &amp; Storefronts</span>
+      </div>
+
+      <h1 class="hero-headline">
+        <span class="tilted-purple-box">Instant Virtual Try-On</span> for Fashion,<br />
+        Beauty &amp; Skincare Shoppers
+      </h1>
+
+      <p class="hero-description">
+        Online shoppers lose confidence to uncertain sizing, clashing undertones, and harsh skincare actives.
+        <strong>TryIt AI</strong> analyzes your silhouette and 6 dermal biomarkers — across apparel, footwear,
+        handbags, makeup, and serums — to render photorealistic try-ons and pre-checkout compatibility verdicts on any store.
+      </p>
+    </section>
+
+    <!-- Featured Live Store Testing & Chrome Extension Hub (Placed directly under hero) -->
+    <section id="extension-install-guide" class="ext-install-card" style="margin-bottom: 44px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span class="nav-tagline-pill">LIVE ECOMMERCE STORES FOR TESTING</span>
+          <span style="font-size:0.75rem;font-weight:700;color:var(--emerald);">● Chrome Extension Ready</span>
+        </div>
+        <h3 style="font-size: 1.48rem; font-weight: 800; line-height: 1.3;">
+          Use TryIt AI on ZARR, Edenrobe
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 6px;">
+          Our Chrome Extension automatically injects a <strong>"✨ Try It On"</strong> button beside native
+          <em>Add to Cart</em> buttons across the web, connected directly to our Google Cloud backend.
+        </p>
+
+        <!-- Two Live Store Cards for Testing -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:12px;margin-top:16px;">
+          <!-- ZARR Store Card -->
+          <div style="background:var(--bg-subtle);border:1.5px solid #BB9935;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-weight:800;font-size:0.96rem;color:#000000;letter-spacing:0.04em;">ZARR (zarr.com.pk)</span>
+              <span style="font-size:0.65rem;background:#BB9935;color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;text-transform:uppercase;">Luxury Pret</span>
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-secondary);line-height:1.4;">
+              Test Raw Silk Kurtis, Embroidered Formals &amp; Velvets directly on Maya, Kenji, or your uploaded photo.
+            </p>
+            <div style="display:flex;gap:6px;margin-top:4px;">
+              <a href="https://zarr.com.pk/" target="_blank" rel="noopener noreferrer" class="nav-pill-btn primary-dl" style="flex:1;justify-content:center;font-weight:700;color:#D4AF37;background:#000000;border:1px solid #BB9935;">
+                🌐 Open Store (zarr.com.pk) ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- Edenrobe Store Card -->
+          <div style="background:var(--bg-subtle);border:1.5px solid #16A34A;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-weight:800;font-size:0.96rem;color:var(--text-main);letter-spacing:0.04em;">Edenrobe (edenrobe.com)</span>
+              <span style="font-size:0.65rem;background:#16A34A;color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;text-transform:uppercase;">Men &amp; Women</span>
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-secondary);line-height:1.4;">
+              Test Wash &amp; Wear Men's Suits, Formal Kurta Pajamas &amp; Western Casual Blazers on Diverse Models.
+            </p>
+            <div style="display:flex;gap:6px;margin-top:4px;">
+              <a href="https://edenrobe.com/" target="_blank" rel="noopener noreferrer" class="nav-pill-btn primary-dl" style="flex:1;justify-content:center;font-weight:700;color:#FFFFFF;background:#059669;border:1px solid #16A34A;">
+                🌐 Open Store (edenrobe.com) ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Step Installation Guide -->
+        <ul class="ext-steps-list" style="margin-top:18px;">
+          <li>
+            <span class="step-badge">1</span>
+            <span>Click <strong>Download Chrome Extension (.zip)</strong> and unzip the folder.</span>
+          </li>
+          <li>
+            <span class="step-badge">2</span>
+            <span>Open Chrome and go to <code>chrome://extensions</code>, then toggle on <strong>Developer mode</strong> (top-right).</span>
+          </li>
+          <li>
+            <span class="step-badge">3</span>
+            <span>Click <strong>Load unpacked</strong> and select the unzipped <code>tryit-extension</code> folder.</span>
+          </li>
+          <li>
+            <span class="step-badge">4</span>
+            <span>Visit <a href="https://zarr.com.pk/" target="_blank" rel="noopener noreferrer" style="color:var(--purple-vibrant);font-weight:700;text-decoration:underline;">zarr.com.pk</a> or <a href="https://edenrobe.com/" target="_blank" rel="noopener noreferrer" style="color:var(--purple-vibrant);font-weight:700;text-decoration:underline;">edenrobe.com</a> and click <strong>"✨ Try It On"</strong> beside Add to Cart!</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Action Panel Side -->
+      <div style="display:flex;flex-direction:column;gap:12px;background:var(--bg-subtle);padding:24px;border-radius:16px;border:1px solid var(--purple-border);">
+        <div style="font-size:0.78rem;font-weight:800;color:var(--purple-primary);letter-spacing:0.06em;text-transform:uppercase;">
+          TryIt AI Extension &amp; Backend Links
+        </div>
+        <a href="https://tryit-ai-165171821863.us-central1.run.app/api/download-extension" class="search-submit-btn" style="justify-content:center;text-align:center;" download="tryit-chrome-extension.zip">
+          📦 Download Chrome Extension (.zip)
+        </a>
+        <a href="https://zarr.com.pk/" target="_blank" rel="noopener noreferrer" class="cta-card-btn" style="justify-content:center;border-color:#BB9935;color:#976F16;">
+          👗 Test on Live Store: zarr.com.pk ↗
+        </a>
+        <a href="https://edenrobe.com/" target="_blank" rel="noopener noreferrer" class="cta-card-btn" style="justify-content:center;border-color:#16A34A;color:#15803D;">
+          👔 Test on Live Store: edenrobe.com ↗
+        </a>
+        <a href="https://github.com/faisal-ismail/tryit" target="_blank" rel="noopener noreferrer" class="cta-card-btn" style="justify-content:center;">
+          💻 GitHub: github.com/faisal-ismail/tryit
+        </a>
+        <a href="https://youcam-api-skin-ai-ecommerce.devpost.com/" target="_blank" rel="noopener noreferrer" class="cta-card-btn" style="justify-content:center;">
+          🏆 YouCam API Skin AI &amp; eCommerce VTO Hackathon
+        </a>
+      </div>
+    </section>
+
+    <!-- Interactive Multi-Store Product Catalog -->
+    <section id="interactive-showroom">
+      <div class="catalog-header">
+        <div class="catalog-title-group">
+          <h2>Demo Store</h2>
+          <p>Click <strong>"✨ TryIt with AI"</strong> on any item to open the Virtual Fitting Room, choose from 8 diverse models or create your own profile (e.g., Zain Ali).</p>
+        </div>
+        <div class="filter-tabs" id="catalog-filters">
+          <button class="filter-tab active" data-filter="all" type="button">All Products (8)</button>
+          <button class="filter-tab" data-filter="cloth-v4" type="button">Apparel (cloth-v4)</button>
+          <button class="filter-tab" data-filter="shoes-transfer" type="button">Footwear (shoes-transfer)</button>
+          <button class="filter-tab" data-filter="bag" type="button">Handbags (bag)</button>
+          <button class="filter-tab" data-filter="scarf-hat" type="button">Scarf &amp; Hat</button>
+          <button class="filter-tab" data-filter="makeup-vto" type="button">Makeup VTO</button>
+          <button class="filter-tab" data-filter="skin-analysis" type="button">Skincare Barrier AI</button>
+        </div>
+      </div>
+          <button class="filter-tab" data-filter="skin-analysis" type="button">Skincare Barrier AI</button>
+        </div>
+      </div>
+
+      <div class="product-grid" id="demo-catalog-grid"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <div>
+        <strong>TryIt AI</strong> • Backend deployed on <strong>Google Cloud Run</strong> &amp; <a href="https://tryit.sineix.com" style="color:var(--purple-vibrant);font-weight:700;">tryit.sineix.com</a> • Powered by <strong>YouCam &amp; Gemini API</strong>
+      </div>
+      <div style="display:flex;gap:16px;font-weight:600;flex-wrap:wrap;">
+        <a href="https://zarr.com.pk/" target="_blank" rel="noopener noreferrer">ZARR Store</a>
+        <a href="https://edenrobe.com/" target="_blank" rel="noopener noreferrer">Edenrobe Store</a>
+        <a href="https://youcam-api-skin-ai-ecommerce.devpost.com/" target="_blank" rel="noopener noreferrer">Devpost Hackathon</a>
+        <a href="https://github.com/faisal-ismail/tryit" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+        <a href="https://tryit-ai-165171821863.us-central1.run.app/api/download-extension" download="tryit-chrome-extension.zip">Download Extension</a>
+        <a href="https://tryit-ai-165171821863.us-central1.run.app/docs" target="_blank" rel="noopener noreferrer">API Docs</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://tryit-ai-165171821863.us-central1.run.app/static/widget.js"></script>
+  <script>
+    let catalogProducts = [];
+
+    // Light / Dark Theme Toggle
+    document.getElementById("theme-toggle-btn").addEventListener("click", () => {
+      document.body.classList.toggle("dark-theme");
+      const btn = document.getElementById("theme-toggle-btn");
+      btn.textContent = document.body.classList.contains("dark-theme") ? "☀️" : "🌙";
+    });
+
+    function resolveAsset(url) {
+      if (!url) return "";
+      if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) return url;
+      const base = window.TRYIT_BACKEND_URL || "";
+      return base + (url.startsWith("/") ? url : "/" + url);
+    }
+
+    async function loadCatalog() {
+      const base = window.TRYIT_BACKEND_URL || "";
+      const resp = await fetch(base + "/api/catalog");
+      const data = await resp.json();
+      catalogProducts = data.products || [];
+      renderCatalog("all");
+      bindGuidedScenarios();
+    }
+
+    function renderCatalog(filter) {
+      const grid = document.getElementById("demo-catalog-grid");
+      const filtered = catalogProducts.filter((item) => {
+        if (filter === "all") return true;
+        if (filter === "scarf-hat") return item.youcam_pipeline === "scarf" || item.youcam_pipeline === "hat";
+        return item.youcam_pipeline === filter;
+      });
+
+      grid.innerHTML = filtered
+        .map(
+          (item) => `
+          <article class="product-card" data-product-id="${item.id}">
+            <div class="product-img-wrap">
+              <span class="pipeline-chip">YouCam: ${item.youcam_pipeline}</span>
+              <span class="store-chip">${item.store_tag}</span>
+              <img src="${resolveAsset(item.image_url)}" alt="${item.title}" />
+            </div>
+            <div class="product-body">
+              <div class="product-brand-row">
+                <span>${item.brand}</span>
+                <span class="product-price">${item.price}</span>
+              </div>
+              <h3 class="product-title">${item.title}</h3>
+              <p class="product-ing"><strong>Specs / Actives:</strong> ${item.ingredients}</p>
+              <div class="product-btn-row">
+                <button class="native-cart-btn" type="button" onclick="alert('Added to Cart: ' + '${item.title.replace(/'/g, "\\'")}')">
+                  🛒 Add to Cart
+                </button>
+                <button class="tryit-inject-btn" type="button" data-tryit-id="${item.id}">
+                  ✨ TryIt with AI
+                </button>
+              </div>
+            </div>
+          </article>
+        `
+        )
+        .join("");
+
+      grid.querySelectorAll("[data-tryit-id]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const prodId = btn.getAttribute("data-tryit-id");
+          const prod = catalogProducts.find((p) => p.id === prodId);
+          if (prod && window.TryItAIWidget) {
+            window.TryItAIWidget.openWithProduct(prod, false, false);
+          }
+        });
+      });
+    }
+
+    function bindGuidedScenarios() {
+      // Catalog Filter tab clicks
+      document.querySelectorAll("#catalog-filters .filter-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll("#catalog-filters .filter-tab").forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          renderCatalog(tab.getAttribute("data-filter"));
+        });
+      });
+    }
+
+    loadCatalog();
+  </script>
+</body>
+</html>

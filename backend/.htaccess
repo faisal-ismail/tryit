@@ -1,0 +1,18 @@
+# cPanel Phusion Passenger + CORS Configuration for TryIt AI
+ PassengerEnabled On
+ PassengerAppType wsgi
+ PassengerStartupFile passenger_wsgi.py
+
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-YouCam-Key, X-Gemini-Key"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Handle preflight OPTIONS requests gracefully
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>
+

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TryIt — Virtual Fitting Room</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 340px;
+      background: #FFFFFF;
+      color: #111111;
+      font-family: "DM Sans", "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .gold-bar {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #D4AF37, #BB9935, #000000);
+    }
+    .container {
+      padding: 18px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #E5E5E5;
+      margin-bottom: 16px;
+    }
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 3px;
+      background: #000000;
+      color: #D4AF37;
+      border: 1px solid #BB9935;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #000000;
+    }
+    .sub {
+      font-size: 0.72rem;
+      color: #6B6B6B;
+      margin-top: 2px;
+    }
+    .info-box {
+      background: #F8F8F8;
+      border: 1px solid #E5E5E5;
+      border-radius: 3px;
+      padding: 12px;
+      font-size: 0.78rem;
+      color: #333333;
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+    .pinned-card {
+      background: #FAF6EB;
+      border: 1px solid #BB9935;
+      border-radius: 3px;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 0.78rem;
+    }
+    .pinned-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #BB9935;
+      margin-bottom: 4px;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 3px;
+      font-weight: 600;
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 8px;
+    }
+    .btn-gold {
+      background: #BB9935;
+      color: #FFFFFF;
+      border: 1px solid #BB9935;
+    }
+    .btn-gold:hover {
+      background: #000000;
+      border-color: #000000;
+    }
+    .btn-outline {
+      background: #FFFFFF;
+      color: #111111;
+      border: 1px solid #D7D7D7;
+    }
+    .btn-outline:hover {
+      background: #000000;
+      color: #FFFFFF;
+      border-color: #000000;
+    }
+    details.settings-drawer {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #EFEFEF;
+    }
+    details.settings-drawer summary {
+      font-size: 0.7rem;
+      color: #888888;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      user-select: none;
+    }
+    .field {
+      margin-top: 10px;
+    }
+    label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #555555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 3px;
+      border: 1px solid #D7D7D7;
+      background: #FAFAFA;
+      color: #111111;
+      font-size: 0.76rem;
+    }
+    .status {
+      font-size: 0.72rem;
+      color: #008669;
+      text-align: center;
+      min-height: 16px;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="gold-bar"></div>
+  <div class="container">
+    <div class="header">
+      <div class="logo-mark">Z</div>
+      <div>
+        <div class="title">TryIt Studio</div>
+        <div class="sub">Virtual Fitting Room &amp; Style Advisor</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      Visit any product page on <strong>ZARR</strong> or your favorite online store and click <strong>"✨ TRY IT ON"</strong> beside <em>Add to Cart</em>.
+    </div>
+
+    <div id="pinned-box" class="pinned-card" style="display:none;">
+      <div class="pinned-label">Saved in Your Outfit</div>
+      <div id="pinned-name" style="font-weight:600;color:#111111;"></div>
+    </div>
+
+    <button id="open-demo-btn" class="btn btn-gold" type="button">✨ Open Virtual Showroom</button>
+
+    <details class="settings-drawer">
+      <summary>Preferences</summary>
+      <div class="field">
+        <label for="backend-url">Service Address</label>
+        <input id="backend-url" type="text" placeholder="http://localhost:8000" />
+      </div>
+      <div class="field">
+        <button id="save-btn" class="btn btn-outline" type="button" style="margin-top:6px;">Save Preferences</button>
+      </div>
+      <div id="status-msg" class="status"></div>
+    </details>
+    <div style="margin-top:14px;padding-top:10px;border-top:1px solid #EFEFEF;text-align:center;font-size:0.68rem;color:#6B6B6B;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">
+      Powered by <span style="color:#BB9935;">YouCam</span> &amp; <span style="color:#000000;">Gemini API</span>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

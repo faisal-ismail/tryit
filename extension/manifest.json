@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "TryIt AI — Universal YouCam VTO & Skin AI Agent",
+  "version": "2.0.0",
+  "description": "Autonomous Virtual Try-On, Cross-Store Look Chaining & Skincare Barrier Agent powered by YouCam S2S v2.0 + Gemini 2.5 Flash.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "TryIt AI Settings & Look Builder",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["config.js", "content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
+

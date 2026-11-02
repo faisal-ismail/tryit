@@ -1,0 +1,48 @@
+/**
+ * TryIt AI — Injected Storefront Button Styles (`extension/styles.css`)
+ * Matched to ZARR (https://zarr.com.pk) design tokens:
+ *   --button-bg-color: rgb(187, 153, 53) (#BB9935)
+ *   --button-label-color: #FFFFFF
+ *   --button-hover-color: #000000
+ *   --button-border-radius: 3px
+ *   --main-font: 'DM Sans', 'Poppins', sans-serif
+ */
+.tryit-ai-injected-dom-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  margin: 10px 0 4px 0 !important;
+  padding: 12px 22px !important;
+  border-radius: 3px !important;
+  border: 1px solid #BB9935 !important;
+  background: #BB9935 !important;
+  color: #FFFFFF !important;
+  font-family: "DM Sans", "Poppins", -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.15s ease !important;
+  z-index: 50 !important;
+}
+
+.tryit-ai-injected-dom-btn:hover {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+.tryit-ai-injected-dom-btn .tryit-sparkle {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+}
